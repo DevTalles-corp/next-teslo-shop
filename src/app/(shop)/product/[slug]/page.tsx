@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { initialData } from '@/seed/seed';
 import { titleFont } from '@/config/fonts';
-import { QuantitySelector, SizeSelector } from '@/components';
+import { ProductSlideshow, QuantitySelector, SizeSelector } from '@/components';
 
 interface Props {
   params: {
@@ -28,7 +28,10 @@ export default function ( { params }: Props ) {
 
       {/* Slideshow */ }
       <div className="col-span-1 md:col-span-2 ">
-        hola
+        <ProductSlideshow 
+          title={ product.title }
+          images={ product.images }
+        />
       </div>
 
       {/* Detalles */ }
