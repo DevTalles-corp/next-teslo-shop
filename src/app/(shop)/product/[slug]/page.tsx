@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { initialData } from '@/seed/seed';
 import { titleFont } from '@/config/fonts';
-import { SizeSelector } from '@/components';
+import { QuantitySelector, SizeSelector } from '@/components';
 
 interface Props {
   params: {
@@ -47,6 +47,9 @@ export default function ( { params }: Props ) {
 
 
         {/* Selector de Cantidad */ }
+        <QuantitySelector 
+          quantity={ 2 }
+        />
 
 
         {/* Button */ }

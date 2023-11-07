@@ -7,6 +7,7 @@ export * from './products/product-grid/ProductGridItem';
 
 
 
+export * from './product/quantity-selector/QuantitySelector';
 export * from './product/size-selector/SizeSelector';
 
 export * from './ui/not-found/PageNotFound';
