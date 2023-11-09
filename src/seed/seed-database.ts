@@ -8,7 +8,7 @@ async function main() {
 
   console.log(initialData);
 
-
+  
 
 
 
@@ -21,6 +21,12 @@ async function main() {
 
 
 
+
+
 (() => {
+
+  if (process.env.NODE_ENV === 'production') return;
+
+
   main();
 })();
