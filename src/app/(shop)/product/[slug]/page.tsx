@@ -4,7 +4,7 @@ export const revalidate = 604800; //7 días
 import { notFound } from 'next/navigation';
 
 import { titleFont } from '@/config/fonts';
-import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector } from '@/components';
+import { ProductMobileSlideshow, ProductSlideshow, QuantitySelector, SizeSelector, StockLabel } from '@/components';
 import { getProductBySlug } from '@/actions';
 
 interface Props {
@@ -53,9 +53,13 @@ export default async function ProductBySlugPage( { params }: Props ) {
       {/* Detalles */ }
       <div className="col-span-1 px-5">
 
+        
+        <StockLabel slug={ product.slug } />
+
         <h1 className={ ` ${ titleFont.className } antialiased font-bold text-xl` }>
           { product.title }
         </h1>
+        
         <p className="text-lg mb-5">${ product.price }</p>
 
         {/* Selector de Tallas */ }
