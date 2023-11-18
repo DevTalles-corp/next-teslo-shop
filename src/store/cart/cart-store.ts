@@ -5,12 +5,11 @@ import { persist } from "zustand/middleware";
 interface State {
   cart: CartProduct[];
 
-
   getTotalItems: () => number;
 
   addProductTocart: (product: CartProduct) => void;
-  updateProductQuantity: (product: CartProduct, quantity: number ) => void;
-  // removeProduct
+  updateProductQuantity: (product: CartProduct, quantity: number) => void;
+  removeProduct: (product: CartProduct) => void;
 }
 
 export const useCartStore = create<State>()(
@@ -21,7 +20,7 @@ export const useCartStore = create<State>()(
       // Methods
       getTotalItems: () => {
         const { cart } = get();
-        return cart.reduce( ( total, item ) => total + item.quantity ,  0 );
+        return cart.reduce((total, item) => total + item.quantity, 0);
       },
 
       addProductTocart: (product: CartProduct) => {
@@ -49,21 +48,28 @@ export const useCartStore = create<State>()(
         set({ cart: updatedCartProducts });
       },
 
-
-      updateProductQuantity: (product: CartProduct, quantity: number ) => {
-        
+      updateProductQuantity: (product: CartProduct, quantity: number) => {
         const { cart } = get();
 
-        const updatedCartProducts = cart.map( item => {
-          if ( item.id === product.id && item.size === product.size ) {
+        const updatedCartProducts = cart.map((item) => {
+          if (item.id === product.id && item.size === product.size) {
             return { ...item, quantity: quantity };
           }
           return item;
         });
 
         set({ cart: updatedCartProducts });
+      },
 
-      }
+      removeProduct: (product: CartProduct) => {
+        const { cart } = get();
+        const updatedCartProducts = cart.filter(
+          (item) => item.id !== product.id || item.size !== product.size
+        );
+
+        set({ cart: updatedCartProducts });
+
+      },
     }),
 
     {
