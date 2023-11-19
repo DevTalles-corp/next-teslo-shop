@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation';
 
 import { getPaginatedProductsWithImages } from '@/actions';
 import { Pagination, ProductGrid, Title } from '@/components';
+import { auth } from '@/auth';
 
 
 
@@ -16,6 +17,11 @@ interface Props {
 
 
 export default async function Home({ searchParams }: Props) {
+
+  const session = await auth();
+  // console.log({session});
+  
+
 
   const page = searchParams.page ? parseInt( searchParams.page ) : 1;
 

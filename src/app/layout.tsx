@@ -7,6 +7,7 @@ import './globals.css';
 
 
 
+
 export const metadata: Metadata = {
   title: {
     template: '%s - Teslo | Shop',
@@ -15,14 +16,20 @@ export const metadata: Metadata = {
   description: 'Una tienda virtual de productos',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  
+
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+          {children}
+      </body>
     </html>
   )
 }
