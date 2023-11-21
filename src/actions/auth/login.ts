@@ -2,6 +2,7 @@
 
 
 import { signIn } from '@/auth.config';
+import { sleep } from '@/utils';
  
 // ...
  
@@ -11,7 +12,8 @@ export async function authenticate(
 ) {
   try {
 
-    console.log({ formData: Object.fromEntries(formData) });
+    // await sleep(2);
+    
     await signIn('credentials', Object.fromEntries(formData));
 
 
