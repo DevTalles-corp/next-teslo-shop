@@ -7,12 +7,12 @@ import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/actions";
 import { IoInformationOutline } from "react-icons/io5";
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 export const LoginForm = () => {
 
 
-  const router = useRouter();
+  // const router = useRouter();
   const [state, dispatch] = useFormState(authenticate, undefined);
   
   console.log(state);
@@ -20,7 +20,8 @@ export const LoginForm = () => {
   useEffect(() => {
     if ( state === 'Success' ) {
       // redireccionar
-      router.replace('/');
+      // router.replace('/');
+      window.location.replace('/');
     }
 
   },[state]);

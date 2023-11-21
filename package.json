@@ -18,6 +18,7 @@
     "next-auth": "^5.0.0-beta.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.48.2",
     "react-icons": "^4.11.0",
     "swiper": "^11.0.3",
     "zod": "^3.22.4",
