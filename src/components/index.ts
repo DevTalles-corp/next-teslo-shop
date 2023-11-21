@@ -6,7 +6,7 @@ export * from './products/product-grid/ProductGrid';
 export * from './products/product-grid/ProductGridItem';
 
 
-
+export * from './provider/Provider';
 
 
 export * from './product/slideshow/ProductSlideshow';
