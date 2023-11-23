@@ -41,9 +41,12 @@ export const placeOrder = async (productIds: ProductToOrder[]) => {
   );
   const { subTotal, tax, total } = products.reduce(
     (totals, product) => {
-      totals.subTotal += product.price;
-      totals.tax += product.price * 0.15;
-      totals.total += product.price * 1.15;
+      const productQuantity = productIds.find(p => p.productId === product.id)?.quantity ?? 1;
+      const subTotal = product.price * productQuantity;
+
+      totals.subTotal += subTotal;
+      totals.tax += subTotal * 0.15;
+      totals.total += subTotal * 1.15;
       return totals;
       // return { subTotal: 0, tax: 0, total: 0 };
     },

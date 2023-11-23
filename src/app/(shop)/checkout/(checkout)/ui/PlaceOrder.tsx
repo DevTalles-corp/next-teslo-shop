@@ -4,9 +4,13 @@ import { placeOrder } from '@/actions';
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat, sleep } from "@/utils";
 import clsx from "clsx";
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 
 export const PlaceOrder = () => {
+
+  const router = useRouter();
+
   const [loaded, setLoaded] = useState(false);
   const [placingOrder, setPlacingOrder] = useState(false);
   const [errorMessage, setErrorMessage] = useState('')
@@ -26,6 +30,7 @@ export const PlaceOrder = () => {
     state.getSummaryInformation()
   );
   const cart = useCartStore( state => state.cart );
+  const clearCart = useCartStore( state => state.clearCart );
 
   useEffect(() => {
     setLoaded(true);
@@ -33,6 +38,7 @@ export const PlaceOrder = () => {
 
   const onPlaceOrder = async () => {
     setPlacingOrder(true);
+    setErrorMessage('');
     // await sleep(2);
     const productsToOrder = cart.map( product => ({
       productId: product.id,
@@ -44,9 +50,15 @@ export const PlaceOrder = () => {
     console.log({result});
     if ( !result.ok ) {
       setErrorMessage( result.message );
-    }
+      setPlacingOrder(false);
+      return;
+    } 
 
-    setPlacingOrder(false);
+    // Limpiar carrito y redireccionar
+    clearCart();
+    router.replace('/orders/' + result.order?.id );
+
+
   };
 
   if (!loaded) {
