@@ -79,9 +79,10 @@ model User {
 }
 
 model Country {
-  id          String        @id
-  name        String
-  UserAddress UserAddress[]
+  id           String         @id
+  name         String
+  UserAddress  UserAddress[]
+  OrderAddress OrderAddress[]
 }
 
 model UserAddress {
@@ -120,6 +121,7 @@ model Order {
   userId String
 
   OrderItem OrderItem[]
+  address   OrderAddress?
 }
 
 model OrderItem {
@@ -134,4 +136,22 @@ model OrderItem {
 
   product   Product @relation(fields: [productId], references: [id])
   productId String
+}
+
+model OrderAddress {
+  id         String  @id @default(uuid())
+  firstName  String
+  lastName   String
+  address    String
+  address2   String?
+  postalCode String
+  phone      String
+  city       String
+
+  // Relaciones
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
+
+  Order   Order  @relation(fields: [orderId], references: [id])
+  orderId String @unique
 }

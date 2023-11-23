@@ -19,9 +19,10 @@ export const getOrderById = async(id: string) => {
     const order = await prisma.order.findUnique({
       where: { id },
       include: {
+        address: true,
         OrderItem: {
 
-          // Luego hacer esto manualmente
+          // Se puede hacer manualmente, pero puede que no sea tan simple
           select: {
             price: true,
             quantity: true,

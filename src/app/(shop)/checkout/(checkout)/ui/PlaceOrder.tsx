@@ -15,16 +15,7 @@ export const PlaceOrder = () => {
   const [placingOrder, setPlacingOrder] = useState(false);
   const [errorMessage, setErrorMessage] = useState('')
 
-  const {
-    address,
-    address2,
-    city,
-    country,
-    firstName,
-    lastName,
-    phone,
-    postalCode,
-  } = useAddressStore((state) => state.address);
+  const address = useAddressStore((state) => state.address);
 
   const { itemsInCart, subTotal, tax, total } = useCartStore((state) =>
     state.getSummaryInformation()
@@ -46,7 +37,7 @@ export const PlaceOrder = () => {
       size: product.size,
     }));
 
-    const result = await placeOrder( productsToOrder )
+    const result = await placeOrder( productsToOrder, address )
     console.log({result});
     if ( !result.ok ) {
       setErrorMessage( result.message );
@@ -70,15 +61,15 @@ export const PlaceOrder = () => {
       <h2 className="text-2xl mb-2">Dirección de entrega</h2>
       <div className="mb-10">
         <p className="text-xl">
-          {firstName} {lastName}
+          {address.firstName} {address.lastName}
         </p>
-        <p>{address}</p>
-        <p>{address2}</p>
-        <p>{postalCode}</p>
+        <p>{address.address}</p>
+        <p>{address.address2}</p>
+        <p>{address.postalCode}</p>
         <p>
-          {city}, {country}
+          {address.city}, {address.country}
         </p>
-        <p>{phone}</p>
+        <p>{address.phone}</p>
       </div>
 
       {/* Divider */}
