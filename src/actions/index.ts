@@ -10,6 +10,7 @@ export * from './auth/register';
 
 export * from './country/get-countries';
 
+export * from './orders/get-orders-by-user';
 export * from './orders/get-order-by-id';
 export * from './orders/place-order';
 
