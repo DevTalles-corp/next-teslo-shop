@@ -1,6 +1,8 @@
 "use server";
 
+import prisma from '@/lib/prisma';
 import { PayPalOrderStatusResponse } from '@/interfaces';
+import { revalidatePath } from 'next/cache';
 
 export const paypalCheckPayment = async (paypalTransactionId: string) => {
   const authToken = await getPayPalBearerToken();
@@ -22,7 +24,8 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   }
 
   const { status, purchase_units } = resp;
-  // const {  } = purchase_units[0]; // TODO: invoice ID
+  console.log({status, purchase_units});
+  const { invoice_id: orderId } = purchase_units[0]; // TODO: invoice ID
 
   if ( status !== 'COMPLETED' ) {
     return {
@@ -32,8 +35,33 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   }
 
   // TODO: Realizar la actualización en nuestra base de datos
+  try {
 
-  console.log({status, purchase_units});
+    await prisma.order.update({
+      where: { id: orderId },
+      data:  {
+        isPaid: true,
+        paidAt: new Date()
+      }
+    })
+
+
+    // TODO: Revalidar un path
+    revalidatePath(`/orders/${ orderId }`);
+
+    return {
+      ok: true
+    }
+
+    
+  } catch (error) {
+    console.log(error);
+    return {
+      ok: false,
+      message: '500 - El pago no se pudo realizar'
+    }
+  }
+
 
 
 
@@ -63,7 +91,10 @@ const getPayPalBearerToken = async (): Promise<string | null> => {
   };
 
   try {
-    const result = await fetch(oauth2Url, requestOptions).then((r) => r.json());
+    const result = await fetch(oauth2Url, {
+      ...requestOptions,
+      cache: 'no-store'
+    }).then((r) => r.json());
     return result.access_token;
   } catch (error) {
     console.log(error);
@@ -90,7 +121,11 @@ const verifyPayPalPayment = async (
   };
 
   try {
-    const resp = await fetch(paypalOrderUrl,requestOptions).then( r => r.json() );
+    const resp = await fetch(paypalOrderUrl, {
+      ...requestOptions,
+      cache: 'no-store'
+    }).then( r => r.json() );
+    console.log({resp});
     return resp;
     
   } catch (error) {
