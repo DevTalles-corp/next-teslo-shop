@@ -12,7 +12,8 @@ export const getProductBySlug = async( slug: string ) => {
       include: {
         ProductImage: {
           select: {
-            url: true
+            url: true,
+            id: true
           }
         }
       },
